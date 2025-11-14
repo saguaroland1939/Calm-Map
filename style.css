@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* MAP takes full screen minus sidebar */
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100vw - 320px);
+  height: 100vh;
+}
+
+/* RIGHT SIDEBAR */
+#sidebar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 320px;
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #ddd;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+/* Search bar */
+#sidebar input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+/* Category dropdown */
+#sidebar select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+/* Places list */
+.place-item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.place-item:hover {
+  background: #f3f3f3;
+}
