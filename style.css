@@ -27,14 +27,51 @@ body {
   z-index: 1000;
 }
 
+/* Center "Calm Map" in the sidebar. */
+#sidebar h2 {
+  text-align: center;
+  margin-top: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #3d6b1f;
+}
+
+/* Tagline below title */
+.tagline {
+  text-align: center;
+  font-style: italic;
+  font-size: 14px;
+  color: #3d6b1f;
+  margin-top: -8px;
+  margin-bottom: 16px;
+  font-weight: normal;
+}
+
+/* Sidebar logo */
+#sidebar-logo {
+  display: block;
+  margin: 12px auto;
+  width: 120px;      /* adjust size as needed */
+  max-width: 80%;
+  height: auto;
+  border-radius: 8px; /* optional */
+}
+
 /* Search bar */
 #sidebar input {
   width: 100%;
   padding: 10px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  border-radius: 4px;
+  box-sizing: border-box;
   font-size: 16px;
+  color: #999;
+}
+
+#sidebar input::placeholder {
+  color: #999;
+  opacity: 1;
 }
 
 /* Category dropdown */
@@ -56,4 +93,145 @@ body {
 
 .place-item:hover {
   background: #f3f3f3;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #F5F4EF; /* eggshell */
+  color: #222;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 6px 8px;
+}
+
+.leaflet-popup-tip-container { overflow: visible; }
+.leaflet-popup-tip { background: transparent; }
+
+.leaflet-popup-tip svg path {
+  fill: #F5F4EF; /* match wrapper */
+  stroke: rgba(0,0,0,0.08);
+}
+
+/*.popup-content { width: 260px; box-sizing: border-box}*/
+.popup-content {
+  width: 260px;
+  box-sizing: border-box;
+  background: transparent; /* wrapper supplies color */
+  padding: 0;
+  margin: 0;
+}
+
+.popup-image {
+  width: 100%;
+  height: 150px;        /* desired displayed height */
+  object-fit: cover;    /* crop to fill without distortion */
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  max-width: 100%;
+}
+
+/* ensure any other popup images scale down */
+.leaflet-popup-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.popup-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 10px 0;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.popup-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 10px 0;
+  line-height: 1.05;
+  text-align: center;
+}
+
+/* NEW: add vertical spacing and style for the info lines */
+.popup-category,
+.popup-price,
+.popup-accessibility,
+.popup-address {
+  margin: 3px 0;        /* tighter spacing */
+  font-size: 13px;
+  color: #444;
+  text-align: left;     /* left-justify */
+  line-height: 1.2;
+}
+
+/* Keep popup-content but reduce overall gap */
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cost-filter {
+  margin: 12px 0;
+  font-size: 14px;
+}
+#cost-slider {
+  width: 100%;
+}
+#cost-label {
+  margin-top: 4px;
+  font-weight: 600;
+  color: #333;
+}
+
+.access-filter {
+  margin: 12px 0;
+  font-size: 14px;
+}
+#access-slider { width: 100%; }
+#access-label { margin-top: 4px; font-weight: 600; color: #333; }
+
+/* Slider customization */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Track */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: #A28B6A;
+  height: 6px;
+  border-radius: 3px;
+}
+
+input[type="range"]::-moz-range-track {
+  background: #A28B6A;
+  height: 6px;
+  border-radius: 3px;
+}
+
+/* Thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #A28B6A;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  margin-top: -6px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: #A28B6A;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  border: none;
 }

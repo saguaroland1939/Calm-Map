@@ -3,18 +3,87 @@
     "lat": 41.0252,
     "lng": 28.9590,
     "name": "Silent Park",
-    "category": "Park"
+    "vibe-type": "Nature",
+    "cost": "Easy on the wallet",
+    "address": "Istanbul, Turkey",
+    "accessibility": "Easy"
   },
   {
     "lat": 41.0240,
     "lng": 28.9575,
     "name": "Calm Coffee",
-    "category": "Cafe"
+    "vibe-type": "Eats & Drinks",
+    "cost": "Easy on the wallet",
+    "address": "Istanbul, Turkey",
+    "accessibility": "Easy"
   },
   {
     "lat": 41.0260,
     "lng": 28.9580,
     "name": "Quiet Corner Spot",
-    "category": "Quiet"
+    "vibe-type": "Quiet",
+    "address": "Istanbul, Turkey",
+    "cost": "Easy on the wallet",
+    "accessibility": "Easy"
+  },
+  {
+    "name": "Spirit of Yoga",
+    "lat": 33.39397402756576,
+    "lng": -111.91509605586525,
+    "address": "1420 E Southern Ave, Tempe, AZ 85282",
+    "vibe-type": "Exercise",
+    "cost": "Something reasonable",
+    "accessibility": "Easy",
+    "image": "https://raw.githubusercontent.com/saguaroland1939/Calm-Map/main/docs/SpiritOfYoga.jpg"
+  },
+  {
+    "name": "South Mountain Park and Preserve",
+    "lat": 33.33347409246764,
+    "lng": -112.07528798575756,
+    "address": "4500 E Pima Canyon Rd, Phoenix, AZ 85044",
+    "vibe-type": "Nature",
+    "cost": "Easy on the wallet",
+    "accessibility": "Moderate",
+    "image": "https://raw.githubusercontent.com/saguaroland1939/Calm-Map/main/docs/SouthMountain.jpg"
+  },
+  {
+    "name": "Arizona State University Community Choir",
+    "lat": 33.41625101610767,
+    "lng": -111.9380582285955,
+    "address": "1200 S Forest Ave, Tempe, AZ 85281",
+    "vibe-type": "Arts",
+    "cost": "Easy on the wallet",
+    "accessibility": "Easy",
+    "image": "https://raw.githubusercontent.com/saguaroland1939/Calm-Map/main/docs/ASUCommunityChoir.jpg"
+  },
+  {
+    "name": "Sanctuary",
+    "lat": 33.5226537890013,
+    "lng": -111.95951959015127,
+    "address": "5700 E McDonald Dr, Paradise Valley, AZ 85253",
+    "vibe-type": "Wellness",
+    "cost": "Big treat to self",
+    "accessibility": "Easy",
+    "image": "https://github.com/saguaroland1939/Calm-Map/blob/main/docs/Sanctuary.jpg?raw=true"
+  },
+  {
+    "name": "Tempe Town Lake North Shore",
+    "lat": 33.43465212937615,
+    "lng": -111.93260682439418,
+    "address": "Near 550 E Tempe Town Lake, Tempe, AZ 85288",
+    "vibe-type": "Nature",
+    "cost": "Easy on the wallet",
+    "accessibility": "Easy",
+    "image": "https://i.pinimg.com/736x/f8/2c/c3/f82cc3f081030e4edd3d49e4ea97c0c2.jpg"
+  },
+  {
+    "name": "Hole in the Rock",
+    "lat": 33.45648857997514,
+    "lng": -111.94526309095686,
+    "address": "625 N Galvin Pkwy, Phoenix, AZ 85008",
+    "vibe-type": "Nature",
+    "cost": "Easy on the wallet",
+    "accessibility": "Moderate",
+    "image": "https://www.tempetourism.com/wp-content/uploads/B8A17383-large-2.jpg"
   }
 ]
