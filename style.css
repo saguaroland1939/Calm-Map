@@ -235,3 +235,21 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   border: none;
 }
+
+#show-all-btn {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 8px 0 14px;
+  background: #3d6b1f;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s;
+}
+#show-all-btn:hover {
+  background: #2d5016;
+}
