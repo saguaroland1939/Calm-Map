@@ -3,29 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calm Places Map</title>
+  <title>Calm Map</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
+  
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <!-- Esri Leaflet and Vector Tile plugins -->
+  <script src="https://unpkg.com/esri-leaflet@3.0.10/dist/esri-leaflet.js"></script>
+  <script src="https://unpkg.com/esri-leaflet-vector@4.0.0/dist/esri-leaflet-vector.js"></script>
 </head>
 
 <body>
 
   <!-- RIGHT SIDEBAR -->
   <div id="sidebar">
-    <h2>Calm Places</h2>
+   <img id="sidebar-logo" src="https://github.com/saguaroland1939/Calm-Map/blob/main/docs/CalmLOGO_Round_2.png?raw=true" alt="Calm Map logo">
+    <h2>Calm Map</h2>
+   <p class="tagline">Find your peaceful spot, anywhere.</p>
 
-    <input id="search" type="text" placeholder="Search calm places..." />
+    <input id="search" type="text" placeholder="Type in your city..." />
 
     <select id="category">
+      <option value="" disabled selected>What's your vibe type?</option>
       <option value="all">All categories</option>
-      <option value="Park">Park</option>
-      <option value="Cafe">Cafe</option>
-      <option value="Quiet">Quiet</option>
+      <option value="Nature">Nature</option>
+      <option value="Eats & Drinks">Eats & Drinks</option>
+      <option value="Exercise">Exercise</option>
+      <option value="Wellness">Wellness</option>
     </select>
+
+    <!-- Cost slider -->
+    <div class="cost-filter">
+      <label for="cost-slider">What's your budget?</label>
+      <input type="range" id="cost-slider" min="0" max="2" step="1" value="0" list="cost-ticks" />
+      <datalist id="cost-ticks">
+        <option value="0" label="Easy on the wallet"></option>
+        <option value="1" label="Something reasonable"></option>
+        <option value="2" label="Big treat to self"></option>
+      </datalist>
+      <div id="cost-label">Easy on the wallet</div>
+    </div>
+
+    <!-- Accessibility slider -->
+    <div class="access-filter">
+      <label for="access-slider">Accessibility</label>
+      <input type="range" id="access-slider" min="0" max="2" step="1" value="0" list="access-ticks" />
+      <datalist id="access-ticks">
+        <option value="0" label="Easy"></option>
+        <option value="1" label="Moderate"></option>
+        <option value="2" label="Challenging"></option>
+      </datalist>
+      <div id="access-label">Easy</div>
+    </div>
 
     <div id="places-list"></div>
   </div>
@@ -33,33 +68,21 @@
   <!-- MAP -->
   <div id="map"></div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
   <script>
+  const COST_VALUES = ["Easy on the wallet", "Something reasonable", "Big treat to self"];
+  const ACCESS_VALUES = ["Easy", "Moderate", "Challenging"];
     const defaultLocation = [41.024893, 28.958593];
-    const map = L.map("map", { zoomControl: true }).setView(defaultLocation, 17);
-    const key = 'AxTQauKhoRFLB9bL4azf	';
-    // Base map
-    //Keeping Cosku's osm basemap in case we need it.
-    //L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      //maxZoom: 19,
-      //attribution: "&copy; OpenStreetMap contributors"
-    // Base map - MapTiler
-L.tileLayer(
-  `https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${key}`,
-  {
-    tileSize: 512,
-    zoomOffset: -1,
-    minZoom: 1,
-    attribution:
-      '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> ' +
-      '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
-    crossOrigin: true
-  }
-).addTo(map);
+    const map = L.map("map").setView([33.4484, -112.074], 11);
 
-    // Locate user
+   // Add Esri vector basemap
+   L.esri.Vector.vectorTileLayer(
+     'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+     {
+       attribution: 'Tiles © Esri'
+     }
+   ).addTo(map);
+
+    /* Locate user
     map.locate({ setView: false, maxZoom: 17 });
 
     map.on("locationfound", e => {
@@ -72,7 +95,7 @@ L.tileLayer(
       })
       .addTo(map)
       .bindPopup("You are here");
-    });
+    }); */
 
     map.on("locationerror", () => {
       L.circleMarker(defaultLocation, {
@@ -86,46 +109,96 @@ L.tileLayer(
     let markers = [];
     let placesData = [];
 
-    // -------- LOAD POINTS --------
+    // -------- DISPLAY CALM LOCATIONS WITH POP-UP WINDOWS --------
     fetch("points.json")
-      .then(resp => resp.json())
+      .then(r => r.json())
       .then(data => {
         placesData = data;
-        renderPlacesList(data);
 
         markers = data.map(place => {
           const marker = L.marker([place.lat, place.lng]);
-          marker.name = place.name;
-          marker.category = place.category;
-          marker.addTo(map).bindPopup(`<b>${place.name}</b>`);
+          marker.name = place.name || "";
+          marker.address = place.address || "";
+          marker.category = place["vibe-type"] || place.category || "";
+          marker.cost = place.cost || "";
+          marker.accessibility = place.accessibility || "";
+          const popupHtml = `
+            <div class="popup-content">
+              <div class="popup-name">${place.name}</div>
+              <img src="${place.image}" alt="${place.name}" class="popup-image">
+             <div class="popup-category"><strong>Vibe type:</strong> ${place["vibe-type"] || place.category || 'N/A'}</div>
+              <div class="popup-price"><strong>Price:</strong> ${place.price || 'N/A'}</div>
+              <div class="popup-accessibility"><strong>Accessibility:</strong> ${place.accessibility || 'N/A'}</div>
+              <div class="popup-address"><strong>Address:</strong> ${place.address || 'N/A'}</div>
+            </div>
+          `;
+          marker.addTo(map).bindPopup(popupHtml, { maxWidth: 320 });
           return marker;
         });
+
+        // get elements
+        const searchEl = document.getElementById("search");
+        const categoryEl = document.getElementById("category");
+        const costEl = document.getElementById("cost-slider");
+        const costLabel = document.getElementById("cost-label");
+        const accessEl = document.getElementById("access-slider");
+        const accessLabel = document.getElementById("access-label");
+
+        // live label update
+        costEl?.addEventListener("input", () => {
+          costLabel.textContent = COST_VALUES[parseInt(costEl.value, 10)];
+        });
+        accessEl?.addEventListener("input", () => {
+          accessLabel.textContent = ACCESS_VALUES[parseInt(accessEl.value, 10)];
+        });
+
+        // include accessibility in filtering
+        function filterMarkers() {
+          const q = (searchEl?.value || "").trim().toLowerCase();
+          const cat = categoryEl?.value || "";
+          const costIdx = parseInt(costEl?.value ?? "0", 10);
+          const costVal = COST_VALUES[costIdx];
+          const accessIdx = parseInt(accessEl?.value ?? "0", 10);
+          const accessVal = ACCESS_VALUES[accessIdx];
+
+          markers.forEach(m => map.removeLayer(m));
+
+          const filtered = markers.filter(m => {
+            const matchesText =
+              !q || (m.name || "").toLowerCase().includes(q) || (m.address || "").toLowerCase().includes(q);
+            const matchesCat = !cat || cat === "all" || m.category === cat;
+            const matchesCost = (m.cost || "").toLowerCase() === costVal.toLowerCase();
+            const matchesAccess = (m.accessibility || "").toLowerCase() === accessVal.toLowerCase();
+            return matchesText && matchesCat && matchesCost && matchesAccess;
+          });
+
+          filtered.forEach(m => m.addTo(map));
+
+          if (typeof renderPlacesList === "function") {
+            const filteredData = placesData.filter(p => {
+              const name = (p.name || "").toLowerCase();
+              const addr = (p.address || "").toLowerCase();
+              const pCat = (p["vibe-type"] || p.category || "");
+              const pCost = (p.cost || "").toLowerCase();
+              const pAccess = (p.accessibility || "").toLowerCase();
+              const matchesText = !q || name.includes(q) || addr.includes(q);
+              const matchesCat = !cat || cat === "all" || pCat === cat;
+              const matchesCost = pCost === costVal.toLowerCase();
+              const matchesAccess = pAccess === accessVal.toLowerCase();
+              return matchesText && matchesCat && matchesCost && matchesAccess;
+            });
+            renderPlacesList(filteredData);
+          }
+        }
+
+        searchEl?.addEventListener("input", filterMarkers);
+        categoryEl?.addEventListener("change", filterMarkers);
+        costEl?.addEventListener("input", filterMarkers);
+        accessEl?.addEventListener("input", filterMarkers);
+
+        // initial render
+        filterMarkers();
       });
-
-    // -------- SEARCH + FILTER --------
-    document.getElementById("search").addEventListener("input", filterMarkers);
-    document.getElementById("category").addEventListener("change", filterMarkers);
-
-    function filterMarkers() {
-      const text = document.getElementById("search").value.toLowerCase();
-      const cat = document.getElementById("category").value;
-
-      markers.forEach(marker => map.removeLayer(marker));
-
-      let filtered = markers.filter(m =>
-        (m.name.toLowerCase().includes(text)) &&
-        (cat === "all" || m.category === cat)
-      );
-
-      filtered.forEach(m => m.addTo(map));
-
-      renderPlacesList(
-        placesData.filter(p =>
-          p.name.toLowerCase().includes(text) &&
-          (cat === "all" || p.category === cat)
-        )
-      );
-    }
 
     // -------- SIDEBAR LIST --------
     function renderPlacesList(places) {
@@ -135,7 +208,8 @@ L.tileLayer(
       places.forEach(place => {
         const item = document.createElement("div");
         item.className = "place-item";
-        item.innerHTML = `<b>${place.name}</b><br><span>${place.category}</span>`;
+        const cat = place["vibe-type"] || place.category || "";
+        item.innerHTML = `<b>${place.name}</b><br><span>${cat}</span>`;
         item.onclick = () => map.setView([place.lat, place.lng], 18);
         list.appendChild(item);
       });
