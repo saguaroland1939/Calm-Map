@@ -27,7 +27,9 @@
     <h2>Calm Map</h2>
    <p class="tagline">Find your peaceful spot, anywhere.</p>
 
-    <input id="search" type="text" placeholder="Type in your city..." />
+    <button id="show-all-btn" type="button">Show all calm spots</button>
+
+    <input id="search" type="text" placeholder="Type in your city" />
 
     <select id="category">
       <option value="" disabled selected>What's your vibe type?</option>
@@ -36,6 +38,8 @@
       <option value="Eats & Drinks">Eats & Drinks</option>
       <option value="Exercise">Exercise</option>
       <option value="Wellness">Wellness</option>
+      <option value="Arts">Arts</option>
+      <option value="Quiet">Quiet</option>
     </select>
 
     <!-- Cost slider -->
@@ -61,6 +65,8 @@
       </datalist>
       <div id="access-label">Easy</div>
     </div>
+
+    <h2 class="results-heading">Click your results</h2>
 
     <div id="places-list"></div>
   </div>
@@ -126,8 +132,8 @@
             <div class="popup-content">
               <div class="popup-name">${place.name}</div>
               <img src="${place.image}" alt="${place.name}" class="popup-image">
-             <div class="popup-category"><strong>Vibe type:</strong> ${place["vibe-type"] || place.category || 'N/A'}</div>
-              <div class="popup-price"><strong>Price:</strong> ${place.price || 'N/A'}</div>
+              <div class="popup-category"><strong>Vibe type:</strong> ${place["vibe-type"] || place.category || 'N/A'}</div>
+              <div class="popup-price"><strong>Price:</strong> ${place.cost || 'N/A'}</div>
               <div class="popup-accessibility"><strong>Accessibility:</strong> ${place.accessibility || 'N/A'}</div>
               <div class="popup-address"><strong>Address:</strong> ${place.address || 'N/A'}</div>
             </div>
@@ -143,6 +149,7 @@
         const costLabel = document.getElementById("cost-label");
         const accessEl = document.getElementById("access-slider");
         const accessLabel = document.getElementById("access-label");
+        const showAllBtn = document.getElementById("show-all-btn");
 
         // live label update
         costEl?.addEventListener("input", () => {
@@ -195,6 +202,25 @@
         categoryEl?.addEventListener("change", filterMarkers);
         costEl?.addEventListener("input", filterMarkers);
         accessEl?.addEventListener("input", filterMarkers);
+
+        // Show all button resets filters and displays all markers/list
+        showAllBtn?.addEventListener("click", () => {
+          if (searchEl) searchEl.value = "";
+          if (categoryEl) categoryEl.value = "";
+          if (costEl) { costEl.value = "0"; costLabel.textContent = COST_VALUES[0]; }
+          if (accessEl) { accessEl.value = "0"; accessLabel.textContent = ACCESS_VALUES[0]; }
+
+          markers.forEach(m => map.removeLayer(m));
+          markers.forEach(m => m.addTo(map));
+          renderPlacesList(placesData);
+
+          // NEW: zoom to full extent of all points (Arizona + Turkey)
+          const allLatLngs = markers.map(m => m.getLatLng());
+          if (allLatLngs.length) {
+            const bounds = L.latLngBounds(allLatLngs);
+            map.fitBounds(bounds, { padding: [50, 50] });
+          }
+        });
 
         // initial render
         filterMarkers();
