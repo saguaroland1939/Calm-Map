@@ -4,10 +4,7 @@
 
 Calm Map is a GIS application designed to connect folks to calm places in their community. This application was built over 2.5 days for the 2025 Girl Develop It hackathon.
 
-Hackathon team:
-Veronica Nixon
-Coskuldil Aydin 
-Yueling Li
+Hackathon team: Veronica Nixon, Coskuldil Aydin, and Yueling Li
 
 Credit to Kate Pond for the great idea.
 
