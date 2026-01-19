@@ -1,0 +1,117 @@
+# Calm-Map Project Rules for AI Agents
+
+## Start all agent chats with an emoji
+
+## Project Overview
+Calm-Map is a GIS web application that helps users discover calm, peaceful places in their community. Built as a single-page application using vanilla HTML, CSS, and JavaScript with Leaflet.js for mapping functionality.
+
+## Tech Stack
+- **Frontend**: Vanilla HTML5, CSS3, JavaScript (ES6+)
+- **Mapping**: Leaflet.js v1.9.4
+- **Basemap**: Esri Vector Tile Service
+- **Data**: JSON file (`points.json`) containing location data
+- **No build tools**: This is a static site served directly
+
+## Project Structure
+```
+Calm-Map/
+├── index.html          # Main HTML file with embedded JavaScript
+├── style.css           # All styling
+├── points.json         # Location data (array of place objects)
+├── docs/               # Image assets and documentation
+└── README.md           # Project documentation
+```
+
+## Code Style Guidelines
+
+### JavaScript
+- Use modern ES6+ syntax (const/let, arrow functions, template literals)
+- Prefer functional programming patterns where appropriate
+- Use meaningful variable names (e.g., `placesData`, `filterMarkers`)
+- Keep functions focused and single-purpose
+- Comment complex logic, especially map-related operations
+
+### CSS
+- Use semantic class names (e.g., `.popup-content`, `.place-item`)
+- Follow BEM-like naming for components
+- Keep styles organized by component/section
+- Use CSS custom properties for colors if repeating values
+- Mobile-first responsive design when applicable
+
+### HTML
+- Use semantic HTML5 elements
+- Maintain accessibility (alt text for images, proper labels)
+- Keep structure clean and readable
+
+## Key Patterns
+
+### Map Markers
+- Markers are created from `points.json` data
+- Each marker stores metadata as properties (`marker.name`, `marker.category`, etc.)
+- Popups use HTML templates with place data
+- Filtering removes/adds markers from map dynamically
+
+### Data Structure
+Places in `points.json` have this structure:
+```json
+{
+  "name": "Place Name",
+  "lat": 33.1234,
+  "lng": -111.5678,
+  "address": "Full address string",
+  "vibe-type": "Nature|Eats & Drinks|Exercise|Wellness|Arts|Quiet",
+  "cost": "Easy on the wallet|Something reasonable|Big treat to self",
+  "accessibility": "Easy|Moderate|Challenging",
+  "image": "URL to image"
+}
+```
+
+### Filtering Logic
+- Multiple filters work together (search, category, cost, accessibility)
+- Filters are applied on user input events
+- Both map markers and sidebar list update together
+- "Show all" button resets all filters and zooms to bounds
+
+## Common Tasks
+
+### Adding a New Place
+1. Add entry to `points.json` with all required fields
+2. Ensure image URL is accessible
+3. Test that marker appears and popup displays correctly
+
+### Modifying Filters
+- Filter logic is in `filterMarkers()` function
+- Update filter UI in HTML sidebar section
+- Ensure both marker and list filtering stay in sync
+
+### Styling Changes
+- Map popups: `.leaflet-popup-content-wrapper` and `.popup-*` classes
+- Sidebar: `#sidebar` and child elements
+- Responsive adjustments: modify `#map` width calculation
+
+## Important Notes
+- Map is initialized centered on Phoenix, AZ area
+- Default location fallback is Istanbul, Turkey coordinates
+- Location services are currently commented out
+- All images are hosted on GitHub (raw URLs)
+- No external dependencies beyond CDN links
+
+## Documentation Maintenance
+
+**CRITICAL**: When making code changes, always update relevant documentation:
+
+- **If you modify code structure**: Update `.cursor/architecture.md` and project structure sections
+- **If you add new patterns**: Update `.cursor/patterns.md` with examples
+- **If you change workflows**: Update `.cursor/workflows.md`
+- **If you add features**: Update `README.md` and relevant sections in `.cursorrules`
+- **If you change data structures**: Update data structure documentation in `.cursorrules` and `.cursor/architecture.md`
+
+Before completing any task, verify that documentation accurately reflects the current codebase state.
+
+## When Making Changes
+- Test in browser after changes
+- Ensure markers display correctly
+- Verify filters work as expected
+- Check that popups render properly
+- Maintain the calm, peaceful aesthetic of the design
+- **Update relevant documentation** (see Documentation Maintenance section above)
