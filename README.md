@@ -8,4 +8,33 @@ Hackathon team: Veronica Nixon, Coskuldil Aydin, and Yueling Li
 
 Credit to Kate Pond for the great idea.
 
+## Documentation and Learning Resources
+
+This repository includes comprehensive documentation designed to help both human developers and AI coding agents work effectively with the codebase.
+
+### For AI Coding Agents
+
+- **[`.cursorrules`](.cursorrules)** - Project rules, conventions, and guidelines for AI agents
+- **[`.cursor/`](.cursor/)** - Detailed agent documentation:
+  - [README](.cursor/README.md) - Guide to the `.cursor/` directory
+  - [Architecture](.cursor/architecture.md) - Technical architecture and component breakdown
+  - [Patterns](.cursor/patterns.md) - Common coding patterns and examples
+  - [Workflows](.cursor/workflows.md) - Development workflows and procedures
+  - [Skills](.cursor/skills.md) - Reusable agent skills and techniques (TDD, etc.)
+
+### Task Management
+
+- **[TODO.md](.cursor/TODO.md)** - Active task list with priorities and status tracking
+- **[PROJECTS.md](.cursor/PROJECTS.md)** - Long-term project planning and milestones
+- **[TASKS/](.cursor/TASKS/)** - Task template (minimal):
+  - [Template](.cursor/TASKS/template.md) - Task template for complex tasks
+
+### Learning Guides
+
+- **[Agent Guide](.cursor/AGENT_GUIDE.md)** - Learn how to write effective agent instructions
+
+## Contributing
+
 Instructions for contributing to the repo coming soon!
+
+For now, see the [workflows documentation](.cursor/workflows.md) for common development tasks.
