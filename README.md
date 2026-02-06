@@ -26,14 +26,12 @@ This repository includes comprehensive documentation designed to help both human
 
 - **[TODO.md](.cursor/TODO.md)** - Active task list with priorities and status tracking
 - **[PROJECTS.md](.cursor/PROJECTS.md)** - Long-term project planning and milestones
-- **[TASKS/](.cursor/TASKS/)** - Detailed task documentation:
+- **[TASKS/](.cursor/TASKS/)** - Task template (minimal):
   - [Template](.cursor/TASKS/template.md) - Task template for complex tasks
-  - [Example](.cursor/TASKS/example.md) - Example of a completed task
 
 ### Learning Guides
 
 - **[Agent Guide](.cursor/AGENT_GUIDE.md)** - Learn how to write effective agent instructions
-- **[Task Management Guide](.cursor/TASKS/TASK_MANAGEMENT.md)** - Learn markdown-based task management
 
 ## Contributing
 

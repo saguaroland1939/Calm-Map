@@ -9,7 +9,7 @@ Structured documentation for AI coding agents working with Calm-Map. High-level 
 - **`workflows.md`**: Step-by-step development procedures
 - **`skills.md`**: Agent skills and techniques (TDD, etc.)
 - **`AGENT_GUIDE.md`**: Guide to writing effective agent instructions
-- **`TASKS/`**: Task management (templates, examples, guide)
+- **`TASKS/`**: Task templates (minimal)
 
 ## For Agents
 
