@@ -1,12 +1,11 @@
-# Coding Patterns and Examples
+# Coding Patterns
 
-This document outlines common coding patterns used in the Calm-Map codebase. Use these as reference when adding new features or modifying existing code.
+Common coding patterns used in Calm-Map. Reference these when adding features or modifying code.
 
-## Pattern: Marker Creation with Metadata
+## Marker Creation with Metadata
 
-**Purpose**: Create Leaflet markers with attached properties for filtering
+**Purpose**: Attach filterable properties to Leaflet markers (which don't natively store custom data).
 
-**Pattern**:
 ```javascript
 const marker = L.marker([place.lat, place.lng]);
 marker.name = place.name || "";
@@ -16,17 +15,12 @@ marker.cost = place.cost || "";
 marker.accessibility = place.accessibility || "";
 ```
 
-**Why**: Leaflet markers don't natively store custom data, so we attach properties directly to the marker object for easy access during filtering.
-
-**Usage**: Used when creating markers from `points.json` data.
-
 ---
 
-## Pattern: Popup HTML Template
+## Popup HTML Template
 
-**Purpose**: Generate HTML content for marker popups
+**Purpose**: Generate popup content using template literals with fallback values.
 
-**Pattern**:
 ```javascript
 const popupHtml = `
   <div class="popup-content">
@@ -41,25 +35,18 @@ const popupHtml = `
 marker.bindPopup(popupHtml, { maxWidth: 320 });
 ```
 
-**Why**: Template literals allow clean HTML generation with data interpolation. Fallback values (`|| 'N/A'`) handle missing data gracefully.
-
-**Usage**: When creating markers, bind this popup HTML to each marker.
-
 ---
 
-## Pattern: Multi-Criteria Filtering
+## Multi-Criteria Filtering
 
-**Purpose**: Filter markers based on multiple criteria simultaneously
+**Purpose**: Filter markers using AND logic across all criteria. Removes all markers first, then re-adds matches.
 
-**Pattern**:
 ```javascript
 function filterMarkers() {
   const q = (searchEl?.value || "").trim().toLowerCase();
   const cat = categoryEl?.value || "";
-  const costIdx = parseInt(costEl?.value ?? "0", 10);
-  const costVal = COST_VALUES[costIdx];
-  const accessIdx = parseInt(accessEl?.value ?? "0", 10);
-  const accessVal = ACCESS_VALUES[accessIdx];
+  const costVal = COST_VALUES[parseInt(costEl?.value ?? "0", 10)];
+  const accessVal = ACCESS_VALUES[parseInt(accessEl?.value ?? "0", 10)];
 
   markers.forEach(m => map.removeLayer(m));
 
@@ -77,20 +64,12 @@ function filterMarkers() {
 }
 ```
 
-**Why**: 
-- Uses logical AND (`&&`) to combine all filter criteria
-- Each filter checks if it's "empty" (no filter applied) or matches
-- Removes all markers first, then re-adds filtered ones (cleaner than tracking state)
-
-**Usage**: Called whenever any filter input changes.
-
 ---
 
-## Pattern: Slider Label Updates
+## Slider Label Updates
 
-**Purpose**: Update text label to match slider value in real-time
+**Purpose**: Map numeric slider values (0-2) to human-readable labels in real-time.
 
-**Pattern**:
 ```javascript
 const COST_VALUES = ["Easy on the wallet", "Something reasonable", "Big treat to self"];
 
@@ -99,29 +78,18 @@ costEl?.addEventListener("input", () => {
 });
 ```
 
-**Why**: Sliders use numeric values (0-2) but display human-readable labels. This pattern maps the numeric value to the corresponding label.
-
-**Usage**: Applied to both cost and accessibility sliders.
-
 ---
 
-## Pattern: Reset All Filters
+## Reset All Filters
 
-**Purpose**: Clear all filters and show all markers
+**Purpose**: Clear filters, show all markers, zoom to full extent.
 
-**Pattern**:
 ```javascript
 showAllBtn?.addEventListener("click", () => {
   if (searchEl) searchEl.value = "";
   if (categoryEl) categoryEl.value = "";
-  if (costEl) { 
-    costEl.value = "0"; 
-    costLabel.textContent = COST_VALUES[0]; 
-  }
-  if (accessEl) { 
-    accessEl.value = "0"; 
-    accessLabel.textContent = ACCESS_VALUES[0]; 
-  }
+  if (costEl) { costEl.value = "0"; costLabel.textContent = COST_VALUES[0]; }
+  if (accessEl) { accessEl.value = "0"; accessLabel.textContent = ACCESS_VALUES[0]; }
 
   markers.forEach(m => map.removeLayer(m));
   markers.forEach(m => m.addTo(map));
@@ -129,26 +97,17 @@ showAllBtn?.addEventListener("click", () => {
 
   const allLatLngs = markers.map(m => m.getLatLng());
   if (allLatLngs.length) {
-    const bounds = L.latLngBounds(allLatLngs);
-    map.fitBounds(bounds, { padding: [50, 50] });
+    map.fitBounds(L.latLngBounds(allLatLngs), { padding: [50, 50] });
   }
 });
 ```
 
-**Why**: 
-- Resets each filter to its default state
-- Re-adds all markers
-- Zooms map to show all locations using `fitBounds()`
-
-**Usage**: "Show all" button click handler.
-
 ---
 
-## Pattern: Dynamic List Rendering
+## Dynamic List Rendering
 
-**Purpose**: Render filtered list of places in sidebar
+**Purpose**: Rebuild sidebar list from filtered data with click-to-zoom.
 
-**Pattern**:
 ```javascript
 function renderPlacesList(places) {
   const list = document.getElementById("places-list");
@@ -165,90 +124,28 @@ function renderPlacesList(places) {
 }
 ```
 
-**Why**: 
-- Clears existing list first (`innerHTML = ""`)
-- Creates DOM elements programmatically
-- Attaches click handler to zoom map to location
-
-**Usage**: Called after filtering to update sidebar list.
-
 ---
 
-## Pattern: Safe Property Access
+## Safe Property Access
 
-**Purpose**: Access nested properties safely with fallbacks
+**Purpose**: Prevent errors from undefined DOM elements or data properties.
 
-**Pattern**:
 ```javascript
-// Using optional chaining and nullish coalescing
-const value = element?.value ?? "default";
-
-// Using logical OR for fallbacks
-const category = place["vibe-type"] || place.category || "";
-
-// Using optional chaining with method calls
-costEl?.addEventListener("input", handler);
+const value = element?.value ?? "default";          // nullish coalescing
+const category = place["vibe-type"] || place.category || "";  // OR fallback
+costEl?.addEventListener("input", handler);          // optional chaining
 ```
 
-**Why**: Prevents errors when DOM elements or data properties might be undefined. Multiple fallback options handle different data structures.
-
-**Usage**: Throughout the codebase when accessing DOM elements or data properties.
-
 ---
 
-## Pattern: Map Bounds Calculation
+## Anti-Patterns to Avoid
 
-**Purpose**: Zoom map to show all markers
+1. Don't create markers inside filter functions (they already exist)
+2. Don't use `var` (use `const`/`let`)
+3. Don't forget fallbacks for missing data
+4. Don't hardcode filter values (use constants like `COST_VALUES`)
+5. Don't modify `placesData` directly (it's the source of truth)
 
-**Pattern**:
-```javascript
-const allLatLngs = markers.map(m => m.getLatLng());
-if (allLatLngs.length) {
-  const bounds = L.latLngBounds(allLatLngs);
-  map.fitBounds(bounds, { padding: [50, 50] });
-}
-```
+## Adding New Patterns
 
-**Why**: 
-- Extracts lat/lng from all markers
-- Creates Leaflet bounds object
-- Fits map view to bounds with padding
-
-**Usage**: "Show all" button and potentially for initial map setup.
-
----
-
-## Pattern: Data Loading with Fetch
-
-**Purpose**: Load JSON data asynchronously
-
-**Pattern**:
-```javascript
-fetch("points.json")
-  .then(r => r.json())
-  .then(data => {
-    placesData = data;
-    // Process data...
-  });
-```
-
-**Why**: Standard async data loading pattern. Could be converted to async/await if preferred.
-
-**Usage**: Initial data load on page initialization.
-
----
-
-## Common Anti-Patterns to Avoid
-
-1. **Don't** create markers inside filter functions (they already exist)
-2. **Don't** use `var` (use `const`/`let`)
-3. **Don't** forget to handle missing data (use fallbacks)
-4. **Don't** hardcode filter values (use constants like `COST_VALUES`)
-5. **Don't** modify `placesData` directly (it's the source of truth)
-
-## When Adding New Patterns
-
-If you introduce a new pattern that might be reused:
-1. Document it here with purpose, code example, and why
-2. Update `.cursorrules` if it becomes a project convention
-3. Consider creating a reusable function if it's used multiple times
+Document new reusable patterns here with: purpose, code example, and why.
