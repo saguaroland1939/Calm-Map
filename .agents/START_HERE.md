@@ -16,17 +16,17 @@ Begin your response with a relevant emoji such as:
 ### Step 2: Acknowledge Documentation
 Explicitly state that you've reviewed and will use:
 - `AGENT_RULES.md` - project rules and conventions
-- `.cursor/architecture.md` - technical architecture
-- `.cursor/patterns.md` - coding patterns
-- `.cursor/workflows.md` - development workflows
-- `.cursor/skills.md` - agent skills (e.g., TDD)
+- `.agents/architecture.md` - technical architecture
+- `.agents/patterns.md` - coding patterns
+- `.agents/workflows.md` - development workflows
+- `.agents/skills.md` - agent skills (e.g., TDD)
 
 ### Step 3: Confirm Understanding
 Briefly indicate you understand the project context (e.g., "I understand this is a vanilla JavaScript GIS application using Leaflet.js" or current state description).
 
 ## Example Opening
 
-🗺️ I've reviewed the Calm-Map documentation (`AGENT_RULES.md`, `.cursor/architecture.md`, `.cursor/patterns.md`, `.cursor/workflows.md`, `.cursor/skills.md`) and understand this is a vanilla JavaScript GIS application using Leaflet.js. How can I help?
+🗺️ I've reviewed the Calm-Map documentation (`AGENT_RULES.md`, `.agents/architecture.md`, `.agents/patterns.md`, `.agents/workflows.md`, `.agents/skills.md`) and understand this is a vanilla JavaScript GIS application using Leaflet.js. How can I help?
 
 ## Important Notes
 
