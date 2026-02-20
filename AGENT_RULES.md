@@ -5,10 +5,21 @@
 **REQUIRED**: At the start of every new conversation, agents MUST:
 
 1. **Start with an emoji** (e.g., 🗺️, 📍, 🌿)
-2. **Acknowledge documentation**: List the files you've reviewed (`.cursorrules`, `architecture.md`, `patterns.md`, `workflows.md`, `skills.md`)
+2. **Acknowledge documentation**: List the files you've reviewed (`AGENT_RULES.md`, `architecture.md`, `patterns.md`, `workflows.md`, `skills.md`)
 3. **Confirm understanding**: Briefly state the project context
 
 **Example**: 🗺️ I've reviewed the Calm-Map docs and understand this is a vanilla JS GIS app using Leaflet.js. How can I help?
+
+## Documentation Structure
+
+Before starting ANY task, agents MUST read:
+- `AGENT_RULES.md` - This file (project overview, rules, patterns)
+- `.agents/START_HERE.md` - Agent protocol and conversation guidelines
+- `.agents/architecture.md` - Technical architecture and component breakdown
+- `.agents/patterns.md` - Code patterns with examples
+- `.agents/workflows.md` - Step-by-step development procedures
+
+These documents are kept current and contain critical context. Ignoring them leads to inconsistent code and poor results.
 
 ## Project Overview
 
@@ -69,7 +80,7 @@ Places in `points.json`:
 
 ## Common Tasks
 
-See `.cursor/workflows.md` for detailed step-by-step procedures.
+See `.agents/workflows.md` for detailed step-by-step procedures.
 
 ## Documentation Maintenance
 
@@ -78,8 +89,8 @@ See `.cursor/workflows.md` for detailed step-by-step procedures.
 - Code structure changes → `architecture.md` + project structure above
 - New patterns → `patterns.md`
 - Workflow changes → `workflows.md`
-- Feature additions → `README.md` + `.cursorrules`
-- Data structure changes → `.cursorrules` + `architecture.md`
+- Feature additions → `README.md` + `AGENT_RULES.md`
+- Data structure changes → `AGENT_RULES.md` + `architecture.md`
 
 ## When Making Changes
 

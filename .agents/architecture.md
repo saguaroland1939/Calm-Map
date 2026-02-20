@@ -61,7 +61,7 @@ User Input → filterMarkers() → Remove All → Filter → Re-add Filtered →
 - `map`: Leaflet map instance
 - Filter state lives in DOM elements (`searchEl`, `categoryEl`, `costEl`, `accessEl`)
 
-> For data structure schema, see `.cursorrules` "Data Structure" section.
+> For data structure schema, see `AGENT_RULES.md` "Data Structure" section.
 > For code patterns, see `patterns.md`.
 
 ### Key Functions

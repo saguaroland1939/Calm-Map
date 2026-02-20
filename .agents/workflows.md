@@ -6,7 +6,7 @@ Step-by-step procedures for common Calm-Map development tasks.
 
 1. **Prepare image**: Add to `docs/`, optimize file size
 2. **Get coordinates**: Use Google Maps to find exact lat/lng
-3. **Add to `points.json`**: Follow the schema in `.cursorrules` "Data Structure"
+3. **Add to `points.json`**: Follow the schema in `AGENT_RULES.md` "Data Structure"
    - Image URLs must use GitHub raw format (`?raw=true`)
    - All fields are required
 4. **Verify in browser**: Check marker, popup, and filters work with new place

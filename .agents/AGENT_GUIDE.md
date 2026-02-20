@@ -8,11 +8,11 @@ Without clear instructions, agents make wrong assumptions, suggest inconsistent 
 
 ## Types of Instruction Files
 
-### `.cursorrules` (project root)
+### `AGENT_RULES.md` (project root)
 High-level rules: project overview, tech stack, code style, key patterns, important notes. This is the first file agents read -- keep it concise.
 
 ### `.cursor/` directory
-Detailed docs organized by topic: `architecture.md`, `patterns.md`, `workflows.md`, `skills.md`. Use these when a topic needs more depth than `.cursorrules` can hold.
+Detailed docs organized by topic: `architecture.md`, `patterns.md`, `workflows.md`, `skills.md`. Use these when a topic needs more depth than `AGENT_RULES.md` can hold.
 
 ## Five Principles for Good Instructions
 
@@ -42,7 +42,7 @@ Good: "**Pattern**: Create markers once, filter by adding/removing from map. **W
 
 ## Keeping Docs Current
 
-Always update documentation when code changes. See the Documentation Maintenance section in `.cursorrules` for specific guidance on which files to update.
+Always update documentation when code changes. See the Documentation Maintenance section in `AGENT_RULES.md` for specific guidance on which files to update.
 
 ## Tips
 

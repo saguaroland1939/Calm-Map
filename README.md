@@ -12,29 +12,31 @@ Credit to Kate Pond for the great idea.
 
 This repository includes comprehensive documentation designed to help both human developers and AI coding agents work effectively with the codebase.
 
+**For AI agents:** Start with [`AGENT_RULES.md`](AGENT_RULES.md), then read the files in [`.agents/`](.agents/) based on your task.
+
 ### For AI Coding Agents
 
-- **[`.cursorrules`](.cursorrules)** - Project rules, conventions, and guidelines for AI agents
-- **[`.cursor/`](.cursor/)** - Detailed agent documentation:
-  - [README](.cursor/README.md) - Guide to the `.cursor/` directory
-  - [Architecture](.cursor/architecture.md) - Technical architecture and component breakdown
-  - [Patterns](.cursor/patterns.md) - Common coding patterns and examples
-  - [Workflows](.cursor/workflows.md) - Development workflows and procedures
-  - [Skills](.cursor/skills.md) - Reusable agent skills and techniques (TDD, etc.)
+- **[`AGENT_RULES.md`](AGENT_RULES.md)** - Project rules, conventions, and guidelines for AI agents
+- **[`.agents/`](.agents/)** - Detailed agent documentation:
+  - [README](.agents/README.md) - Guide to the `.agents/` directory
+  - [Architecture](.agents/architecture.md) - Technical architecture and component breakdown
+  - [Patterns](.agents/patterns.md) - Common coding patterns and examples
+  - [Workflows](.agents/workflows.md) - Development workflows and procedures
+  - [Skills](.agents/skills.md) - Reusable agent skills and techniques (TDD, etc.)
 
 ### Task Management
 
-- **[TODO.md](.cursor/TODO.md)** - Active task list with priorities and status tracking
-- **[PROJECTS.md](.cursor/PROJECTS.md)** - Long-term project planning and milestones
-- **[TASKS/](.cursor/TASKS/)** - Task template (minimal):
-  - [Template](.cursor/TASKS/template.md) - Task template for complex tasks
+- **[TODO.md](.agents/TODO.md)** - Active task list with priorities and status tracking
+- **[PROJECTS.md](.agents/PROJECTS.md)** - Long-term project planning and milestones
+- **[TASKS/](.agents/TASKS/)** - Task template (minimal):
+  - [Template](.agents/TASKS/template.md) - Task template for complex tasks
 
 ### Learning Guides
 
-- **[Agent Guide](.cursor/AGENT_GUIDE.md)** - Learn how to write effective agent instructions
+- **[Agent Guide](.agents/AGENT_GUIDE.md)** - Learn how to write effective agent instructions
 
 ## Contributing
 
 Instructions for contributing to the repo coming soon!
 
-For now, see the [workflows documentation](.cursor/workflows.md) for common development tasks.
+For now, see the [workflows documentation](.agents/workflows.md) for common development tasks.

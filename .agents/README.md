@@ -1,6 +1,6 @@
 # .cursor Directory
 
-Structured documentation for AI coding agents working with Calm-Map. High-level rules live in `.cursorrules`; this directory holds the details.
+Structured documentation for AI coding agents working with Calm-Map. High-level rules live in `AGENT_RULES.md`; this directory holds the details.
 
 ## Files
 
@@ -16,6 +16,6 @@ Structured documentation for AI coding agents working with Calm-Map. High-level 
 1. Read relevant files before starting a task
 2. Reference `patterns.md` and `architecture.md` when modifying code
 3. Follow `workflows.md` for established procedures
-4. Update docs after changes (see Documentation Maintenance in `.cursorrules`)
+4. Update docs after changes (see Documentation Maintenance in `AGENT_RULES.md`)
 
 These are living documents -- keep them accurate as the codebase evolves.

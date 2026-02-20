@@ -15,7 +15,7 @@ Begin your response with a relevant emoji such as:
 
 ### Step 2: Acknowledge Documentation
 Explicitly state that you've reviewed and will use:
-- `.cursorrules` - project rules and conventions
+- `AGENT_RULES.md` - project rules and conventions
 - `.cursor/architecture.md` - technical architecture
 - `.cursor/patterns.md` - coding patterns
 - `.cursor/workflows.md` - development workflows
@@ -26,7 +26,7 @@ Briefly indicate you understand the project context (e.g., "I understand this is
 
 ## Example Opening
 
-🗺️ I've reviewed the Calm-Map documentation (`.cursorrules`, `.cursor/architecture.md`, `.cursor/patterns.md`, `.cursor/workflows.md`, `.cursor/skills.md`) and understand this is a vanilla JavaScript GIS application using Leaflet.js. How can I help?
+🗺️ I've reviewed the Calm-Map documentation (`AGENT_RULES.md`, `.cursor/architecture.md`, `.cursor/patterns.md`, `.cursor/workflows.md`, `.cursor/skills.md`) and understand this is a vanilla JavaScript GIS application using Leaflet.js. How can I help?
 
 ## Important Notes
 
