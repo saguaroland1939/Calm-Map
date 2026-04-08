@@ -1,0 +1,6 @@
+:3000 {
+  root * /srv
+  file_server
+  reverse_proxy /api/* http://api:8080
+  log { output stdout }
+}

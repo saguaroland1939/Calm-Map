@@ -38,23 +38,30 @@ Browser ──► Caddy (localhost:3000 / GitHub Pages)
 
 ## Directory Structure
 
+Code is grouped by **domain**, not by layer. No `handlers/`, `models/`, or `services/` packages — those are kitchen-drawer anti-patterns. Each domain package owns its handlers, types, and store queries together. Dependencies are passed via constructor injection; no globals.
+
 ```
 calm-map/
 ├── cmd/
-│   ├── server/main.go         # Entry point
+│   ├── server/main.go         # Entry point — thin: config, deps, start, shutdown
 │   └── seed/main.go           # One-time: imports points.json into DB
 ├── internal/
-│   ├── api/
-│   │   ├── router.go          # Chi router + middleware
-│   │   ├── handler_places.go
-│   │   ├── handler_comments.go
-│   │   ├── handler_favorites.go
-│   │   └── handler_votes.go
-│   ├── db/
-│   │   ├── db.go              # pgx pool init
-│   │   └── queries/           # sqlc .sql files + generated/ output
-│   ├── model/place.go
-│   └── config/config.go       # Reads env vars
+│   ├── places/
+│   │   ├── handler.go         # Chi handlers for /api/v1/places
+│   │   ├── service.go         # Business logic (filtering, approval)
+│   │   └── store.go           # SQL queries (sqlc-generated or pgx direct)
+│   ├── comments/
+│   │   ├── handler.go
+│   │   └── store.go
+│   ├── favorites/
+│   │   ├── handler.go
+│   │   └── store.go
+│   ├── votes/
+│   │   ├── handler.go
+│   │   └── store.go
+│   └── platform/
+│       ├── database/db.go     # pgx pool init — injected into stores
+│       └── config/config.go   # Reads env vars (DATABASE_URL, PORT, etc.)
 ├── migrations/
 │   ├── 001_create_places.sql
 │   ├── 002_create_users.sql
@@ -66,6 +73,8 @@ calm-map/
 │   ├── app.js                 # JS extracted from index.html
 │   ├── style.css
 │   └── docs/
+├── design/                    # Architecture Decision Records (ADRs)
+│   └── ADR-001-go-backend.md
 ├── docker-compose.yml
 ├── Dockerfile.dev             # Go + Air, for local development
 ├── Dockerfile                 # Multi-stage production build
@@ -75,6 +84,28 @@ calm-map/
 ├── sqlc.yaml
 ├── go.mod
 └── .env.example
+```
+
+### main.go pattern
+
+`cmd/server/main.go` stays thin. Dependencies are initialised once and injected via constructors — no globals.
+
+```go
+func main() {
+    if err := run(context.Background(), os.Args, os.Environ()); err != nil {
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
+    }
+}
+
+func run(ctx context.Context, args []string, env []string) error {
+    // 1. Parse config from env
+    // 2. Init pgx pool — pass to store constructors
+    // 3. Build Chi router — pass stores/services to handlers
+    // 4. Start HTTP server
+    // 5. Block on shutdown signal
+    return nil
+}
 ```
 
 ---

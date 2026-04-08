@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgis/postgis:17-3.4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: calm_map
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/calm_map?sslmode=disable
+      PORT: "8080"
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/tmp
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: caddy:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/srv
+      - ./Caddyfile.dev:/etc/caddy/Caddyfile
+    depends_on:
+      - api
+
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./migrations:/migrations
+    command: -path=/migrations/ -database postgres://postgres:postgres@db:5432/calm_map?sslmode=disable up
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - migrate
+
+volumes:
+  postgres_data:
